@@ -73,5 +73,11 @@ public interface Configuration {
 	 * @return List<String> 相对类加载器的路径
 	 */
     List<String> getExtStopWordDictionarys();
-			
+
+	/**
+	 * 获取词典文件内容，直接返回list
+	 * @return
+	 */
+	List<String> getExtDirctionarysContent();
+
 }

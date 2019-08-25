@@ -1,6 +1,7 @@
 package com.rongke.message.filter.config;
 
 import com.rongke.analyzer.cfg.Configuration;
+import com.rongke.analyzer.lucene.IKTokenizer;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.Tokenizer;
 
@@ -47,7 +48,7 @@ public final class RongkeIKAnalyzer extends Analyzer{
 	@Override
 	protected TokenStreamComponents createComponents(String fieldName) {
 		//Tokenizer _IKTokenizer = new IKTokenizer(this.useSmart());
-		Tokenizer _IKTokenizer = new RongkeIKTokenizer(this.cfg);
+		Tokenizer _IKTokenizer = new IKTokenizer(this.cfg);
 		return new TokenStreamComponents(_IKTokenizer);
 	}
 

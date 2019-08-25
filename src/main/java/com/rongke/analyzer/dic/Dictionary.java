@@ -222,7 +222,8 @@ public class Dictionary {
 			}
 		}
 		//加载扩展词典
-		this.loadExtDict();
+		//this.loadExtDict();
+		this.loadExtDirFromContentList();
 	}	
 	
 	/**
@@ -365,5 +366,12 @@ public class Dictionary {
 			}
 		}
 	}
-	
+
+	private void loadExtDirFromContentList() {
+		final List<String> extDirctionarysContent = cfg.getExtDirctionarysContent();
+		extDirctionarysContent.parallelStream()
+				.map(i-> i.trim().toLowerCase().toCharArray())
+				.forEach(_QuantifierDict::fillSegment);
+	}
+
 }

@@ -118,7 +118,12 @@ public class RongkeIKConfig implements Configuration {
 		return extStopWordDictFiles;		
 	}
 
-    public String getExtDictCfg() {
+	@Override
+	public List<String> getExtDirctionarysContent() {
+		return null;
+	}
+
+	public String getExtDictCfg() {
         return extDictCfg;
     }
 

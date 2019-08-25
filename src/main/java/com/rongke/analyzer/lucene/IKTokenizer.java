@@ -26,6 +26,7 @@
  */
 package com.rongke.analyzer.lucene;
 
+import com.rongke.analyzer.cfg.Configuration;
 import com.rongke.analyzer.core.IKSegmenter;
 import com.rongke.analyzer.core.Lexeme;
 import org.apache.lucene.analysis.Tokenizer;
@@ -63,6 +64,14 @@ public final class IKTokenizer extends Tokenizer {
 	    termAtt = addAttribute(CharTermAttribute.class);
 	    typeAtt = addAttribute(TypeAttribute.class);
 		_IKImplement = new IKSegmenter(input , useSmart);
+	}
+
+	public IKTokenizer(Configuration cfg){
+		super();
+		offsetAtt = addAttribute(OffsetAttribute.class);
+		termAtt = addAttribute(CharTermAttribute.class);
+		typeAtt = addAttribute(TypeAttribute.class);
+		_IKImplement = new IKSegmenter(input , cfg);
 	}
 
 	/* (non-Javadoc)
