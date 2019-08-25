@@ -36,8 +36,7 @@ public class RongkeIKConfig implements Configuration {
 	/*
 	 * 初始化配置文件
 	 */
-	public RongkeIKConfig(String configPath) {
-        this.configFileName = configPath;
+	public RongkeIKConfig() {
 	}
 	
 	/**

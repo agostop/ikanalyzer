@@ -27,10 +27,7 @@ package com.rongke.analyzer.cfg;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.InvalidPropertiesFormatException;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * Configuration 默认实现
@@ -42,8 +39,9 @@ public class DefaultConfig implements Configuration{
 	/*
 	 * 分词器默认字典路径 
 	 */
-	private static final String PATH_DIC_MAIN = "org/wltea/analyzer/dic/main2012.dic";
-	private static final String PATH_DIC_QUANTIFIER = "org/wltea/analyzer/dic/quantifier.dic";
+	private static final String PATH_DIC_MAIN = "main2012.dic";
+	private static final String PATH_DIC_QUANTIFIER = "quantifier.dic";
+	private static final String PATH_DIC_STOP_WORD = "chinese_stop_word.dic";
 
 	/*
 	 * 分词器配置文件路径
@@ -161,9 +159,16 @@ public class DefaultConfig implements Configuration{
 					}
 				}
 			}
-		}		
+		} else {
+		    extStopWordDictFiles.add(PATH_DIC_STOP_WORD);
+		}
 		return extStopWordDictFiles;		
 	}
-			
+
+	@Override
+	public List<String> getExtDirctionarysContent() {
+		return getExtDictionarys();
+	}
+
 
 }

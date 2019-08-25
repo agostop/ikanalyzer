@@ -16,6 +16,7 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopScoreDocCollector;
+import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.NIOFSDirectory;
 import org.apache.lucene.store.RAMDirectory;
@@ -24,27 +25,26 @@ import java.io.*;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-public class MessageFilter {
+public abstract class MessageFilter {
 	private static final Logger m_logger = Logger.getLogger(MessageFilter.class);
 	private RongkeIKAnalyzer m_analyzer;
 	private RAMDirectory  m_directory;
 	private IndexSearcher m_isearcher;
-	private String m_idxDir;
 	private QueryParser m_qp;
 
-	public MessageFilter(String configPath, String idxDir) {
-		Configuration ikCfg = new RongkeIKConfig(configPath);
-		ikCfg.setUseSmart(true);
-		m_analyzer = new RongkeIKAnalyzer(ikCfg);
-		m_idxDir = idxDir;
-		
+	private Configuration ikCfg;
+
+	public MessageFilter(String configPath) {
+		this.ikCfg = new RongkeIKConfig();
+		this.ikCfg.setUseSmart(true);
+		this.m_analyzer = new RongkeIKAnalyzer(this.ikCfg);
 	}
-	
+
+
 	public void initIdxDir() {
 		
 		try {
-			FSDirectory fsdir = NIOFSDirectory.open(Paths.get(m_idxDir));
-			m_directory = new RAMDirectory(fsdir, null);
+			m_directory = new RAMDirectory();
 			
 			IndexReader reader = DirectoryReader.open(m_directory);
 			m_isearcher = new IndexSearcher(reader);
@@ -108,6 +108,7 @@ public class MessageFilter {
 		//File dir = new File("./config/dict");
 		File dir = new File(extDictPath);
 		File[] listFiles = dir.listFiles();
+		assert listFiles != null;
 		for (File f : listFiles) {
 			if (f.isFile()) {
 				FileInputStream dict = null;
@@ -153,11 +154,11 @@ public class MessageFilter {
 		String fieldName = "text";
 
 		try {
-			// directory = new RAMDirectory();
+			Directory directory = new RAMDirectory();
 			//directory = NIOFSDirectory.open(Paths.get("E:\\TMP\\indexdir"));
 			IndexWriterConfig config = new IndexWriterConfig(m_analyzer);
 
-			iwriter = new IndexWriter(FSDirectory.open(Paths.get(m_idxDir)), config);
+			iwriter = new IndexWriter(directory, config);
 			TextField tField = new TextField(fieldName, "", Field.Store.YES);
 			Document doc = null;
 			int size = dictArray.size();
@@ -214,8 +215,8 @@ public class MessageFilter {
 	*/
 	
 	public static void main(String[] args) {
-		MessageFilter mf = new MessageFilter("your configpath", " your indexdir");
-		mf.grep("江阴毛纺厂");
+//		MessageFilter mf = new MessageFilter("your configpath", " your indexdir");
+//		mf.grep("江阴毛纺厂");
 	}
 
 }
